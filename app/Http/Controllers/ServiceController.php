@@ -20,15 +20,16 @@ class ServiceController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:100',
             'price' => 'required|numeric|min:1000',
-            'duration_days' => 'required|numeric|min:1'
+            'duration_days' => 'required|integer|min:1'
         ]);
 
-        Service::create($request->all());
+        Service::create($validated);
 
-        return redirect()->route('services.index')->with('success', 'Layanan berhasil ditambahkan.');
+        return redirect()->route('admin.services.index')
+            ->with('success', 'Layanan berhasil ditambahkan.');
     }
 
     public function show(Service $service)
@@ -43,20 +44,23 @@ class ServiceController extends Controller
 
     public function update(Request $request, Service $service)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:100',
             'price' => 'required|numeric|min:1000',
-            'duration_days' => 'required|numeric|min:1'
+            'duration_days' => 'required|integer|min:1'
         ]);
 
-        $service->update($request->all());
+        $service->update($validated);
 
-        return redirect()->route('services.index')->with('success', 'Layanan berhasil diperbarui.');
+        return redirect()->route('admin.services.index')
+            ->with('success', 'Layanan berhasil diperbarui.');
     }
 
     public function destroy(Service $service)
     {
         $service->delete();
-        return redirect()->route('services.index')->with('success', 'Layanan berhasil dihapus.');
+
+        return redirect()->route('admin.services.index')
+            ->with('success', 'Layanan berhasil dihapus.');
     }
 }

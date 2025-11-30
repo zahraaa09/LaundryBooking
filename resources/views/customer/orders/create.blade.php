@@ -1,4 +1,4 @@
-@extends('layouts.customer')
+@extends('layouts.app')
 
 @section('content')
 <div class="p-6 max-w-lg mx-auto">
@@ -14,6 +14,12 @@
                     <option value="{{ $service->id }}">{{ $service->name }} - Rp{{ $service->price }}</option>
                 @endforeach
             </select>
+        </div>
+
+        <div>
+            <label class="block font-medium mb-1">Berat (Kg)</label>
+            <input type="number" step="0.1" name="weight_kg" required
+                class="w-full border-gray-300 rounded p-2 focus:ring-blue-400">
         </div>
 
         <div>

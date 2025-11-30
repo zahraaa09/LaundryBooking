@@ -9,20 +9,16 @@ class CustomerDashboardController extends Controller
 {
     public function index()
     {
-        $customerId = Auth::user()->id;
+        $customerId = Auth::id();
 
         return view('customer.dashboard', [
-            'orderCount' => Order::where('customer_id', $customerId)->count(),
-            'activeOrders' => Order::where('customer_id', $customerId)
-                ->whereNotIn('status', ['Selesai', 'Dibatalkan'])
+            'totalOrders' => Order::where('customer_id', $customerId)->count(),
+            'pendingOrders' => Order::where('customer_id', $customerId)
+                ->where('status', 'masuk')
                 ->count(),
             'completedOrders' => Order::where('customer_id', $customerId)
-                ->where('status', 'Selesai')
+                ->where('status', 'selesai')
                 ->count(),
-            'latestOrders' => Order::where('customer_id', $customerId)
-                ->latest()
-                ->take(5)
-                ->get()
         ]);
     }
 }

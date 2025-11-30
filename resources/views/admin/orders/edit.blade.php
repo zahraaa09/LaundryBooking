@@ -4,7 +4,7 @@
 <div class="container mx-auto py-6 max-w-lg">
     <h1 class="text-2xl font-bold mb-4">Edit Pesanan Laundry</h1>
 
-    <form action="{{ route('orders.update', $order) }}" method="POST" class="space-y-4">
+    <form action="{{ route('admin.orders.update', $order) }}" method="POST" class="space-y-4">
         @csrf
         @method('PUT')
 
@@ -38,10 +38,10 @@
         <div>
             <label class="font-semibold">Status</label>
             <select name="status" class="w-full border px-3 py-2 rounded">
-                @foreach(['masuk', 'dicuci', 'siap_diambil', 'selesai'] as $status)
-                    <option value="{{ $status }}" {{ $order->status == $status ? 'selected' : '' }}>
-                        {{ ucfirst($status) }}
-                    </option>
+                @foreach(['masuk','dicuci','siap_diambil','selesai'] as $st)
+                <option value="{{ $st }}" {{ $order->status == $st ? 'selected' : '' }}>
+                     {{ ucwords(str_replace('_',' ',$st)) }}
+                </option>
                 @endforeach
             </select>
         </div>

@@ -4,7 +4,7 @@
 <div class="container mx-auto py-6 max-w-lg">
     <h1 class="text-2xl font-bold mb-4">Tambah Pesanan Laundry</h1>
 
-    <form action="{{ route('orders.store') }}" method="POST" class="space-y-4">
+    <form action="{{ route('admin.orders.store') }}" method="POST" class="space-y-4">
         @csrf
 
         <div>
