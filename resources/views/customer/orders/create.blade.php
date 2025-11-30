@@ -18,7 +18,7 @@
 
         <div>
             <label class="block font-medium mb-1">Berat (Kg)</label>
-            <input type="number" step="0.1" name="weight_kg" required
+            <input type="number" step="0.1" name="weight" required
                 class="w-full border-gray-300 rounded p-2 focus:ring-blue-400">
         </div>
 
