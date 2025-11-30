@@ -8,6 +8,6 @@
     <p><strong>Harga:</strong> Rp {{ number_format($service->price) }}</p>
     <p><strong>Durasi:</strong> {{ $service->duration_days }} hari</p>
 
-    <a href="{{ route('services.index') }}" class="btn btn-secondary">Kembali</a>
+    <a href="{{ route('admin.services.index') }}" class="btn btn-secondary">Kembali</a>
 </div>
 @endsection

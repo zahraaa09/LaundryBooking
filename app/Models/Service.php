@@ -14,4 +14,9 @@ class Service extends Model
         return $this->hasMany(Order::class);
     }
 
+    protected $fillable = [
+        'name',
+        'price',
+        'duration_days',
+    ];
 }

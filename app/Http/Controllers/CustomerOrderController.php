@@ -28,23 +28,27 @@ class CustomerOrderController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'service_id' => 'required|exists:services,id',
-            'weight' => 'required|numeric|min:1',
+            'weight_kg' => 'required|numeric|min:1',
+            'notes' => 'nullable|string'
         ]);
 
-        $service = Service::find($request->service_id);
+        $service = Service::findOrFail($validated['service_id']);
 
         Order::create([
             'customer_id' => Auth::id(),
             'service_id' => $service->id,
-            'weight' => $request->weight,
-            'total_price' => $request->weight * $service->price,
-            'pickup_date' => now()->addDays($service->duration),
-            'status' => 'Masuk',
+            'weight_kg' => $validated['weight_kg'],
+            'total_price' => $validated['weight_kg'] * $service->price,
+            'pickup_date' => now()->addDays($service->duration_days),
+            'order_date' => now(),
+            'status' => 'masuk',
+            'notes' => $validated['notes']
         ]);
 
-        return redirect()->route('customer.orders.index')->with('success', 'Pesanan berhasil dibuat!');
+        return redirect()->route('customer.orders.index')
+            ->with('success', 'Pesanan berhasil dibuat!');
     }
 
     public function show($id)

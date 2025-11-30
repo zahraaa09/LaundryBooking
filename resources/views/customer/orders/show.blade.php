@@ -1,4 +1,4 @@
-@extends('layouts.customer')
+@extends('layouts.app')
 
 @section('content')
 <div class="p-6 max-w-2xl mx-auto">

@@ -23,9 +23,9 @@
     </div>
 
     <div class="flex gap-3 mt-4">
-        <a href="{{ route('orders.edit', $order) }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Edit</a>
+        <a href="{{ route('admin.orders.edit', $order) }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Edit</a>
         
-        <form action="{{ route('orders.destroy', $order) }}" method="POST">
+        <form action="{{ route('admin.orders.destroy', $order) }}" method="POST">
             @csrf @method('DELETE')
             <button onclick="return confirm('Yakin hapus pesanan?')" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
                 Hapus
@@ -34,7 +34,7 @@
     </div>
 
     <div class="mt-6">
-        <a href="{{ route('orders.index') }}" class="text-gray-600">&larr; Kembali</a>
+        <a href="{{ route('admin.orders.index') }}" class="text-gray-600">&larr; Kembali</a>
     </div>
 </div>
 @endsection
