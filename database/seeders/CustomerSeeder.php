@@ -15,7 +15,7 @@ class CustomerSeeder extends Seeder
             $user = User::create([
                 'name' => "Customer $i",
                 'email' => "customer$i@example.com",
-                'phone' => "08123$i$i$i$i",
+                'phone' => "082349231601",
                 'role' => 'customer',
                 'password' => bcrypt('password'),
             ]);
@@ -23,7 +23,7 @@ class CustomerSeeder extends Seeder
             Customer::create([
                 'user_id' => $user->id,
                 'name' => "Customer $i",
-                'phone' => "08123$i$i$i$i",
+                'phone' => "082349231601",
                 'address' => "Alamat Customer $i",
             ]);
         }

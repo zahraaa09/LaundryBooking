@@ -32,7 +32,7 @@
 
         <div>
             <label class="font-semibold">Berat (Kg)</label>
-            <input type="number" step="0.1" name="weight_kg" value="{{ $order->weight_kg }}" class="w-full border px-3 py-2 rounded" required>
+            <input type="number" step="0.1" name="weight" value="{{ $order->weight_kg }}" class="w-full border px-3 py-2 rounded" required>
         </div>
 
         <div>

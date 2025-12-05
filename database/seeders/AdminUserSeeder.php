@@ -13,7 +13,7 @@ class AdminUserSeeder extends Seeder
         User::create([
             'name' => 'Admin Laundry',
             'email' => 'admin@laundry.com',
-            'phone' => '081234567890',
+            'phone' => '087762123575',
             'role' => 'admin',
             'password' => Hash::make('password'),
         ]);

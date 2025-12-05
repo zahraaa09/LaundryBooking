@@ -255,3 +255,9 @@ Dikembangkan dengan ❤️ untuk memudahkan manajemen laundry
 
 - Email: support@laundry.com
 - Website: https://laundry-booking.com
+- Email: support@laundry.com
+- Website: https://laundry-booking.com
+
+---
+
+⭐ Jangan lupa berikan bintang jika project ini membantu!

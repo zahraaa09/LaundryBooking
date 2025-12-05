@@ -31,7 +31,7 @@ class OrderController extends Controller
         $validated = $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'service_id'  => 'required|exists:services,id',
-            'weight_kg'      => 'required|numeric|min:1',
+            'weight'      => 'required|numeric|min:1',
         ]);
 
         $service = Service::findOrFail($validated['service_id']);
@@ -39,8 +39,8 @@ class OrderController extends Controller
         Order::create([
             'customer_id' => $validated['customer_id'],
             'service_id'  => $validated['service_id'],
-            'weight_kg'      => $validated['weight_kg'],              // <— sesuai DB
-            'total_price' => $validated['weight_kg'] * $service->price,
+            'weight'      => $validated['weight'],              // <— sesuai DB
+            'total_price' => $validated['weight'] * $service->price,
             'order_date'  => now(),
             'pickup_date' => now()->addDays($service->duration_days),
             'status'      => 'Masuk',                             // <— sesuai ENUM
@@ -67,22 +67,40 @@ class OrderController extends Controller
         $validated = $request->validate([
             'customer_id' => 'required|exists:customers,id',
             'service_id'  => 'required|exists:services,id',
-            'weight_kg'   => 'required|numeric|min:1',
+            'weight'   => 'required|numeric|min:1',
             'status'      => 'required|in:masuk,dicuci,siap_diambil,selesai',
             'notes'       => 'nullable|string'
         ]);
 
         $service = Service::findOrFail($validated['service_id']);
 
+        $oldStatus = $order->status;
+
         $order->update([
             'customer_id' => $validated['customer_id'],
             'service_id'  => $validated['service_id'],
-            'weight_kg'   => $validated['weight_kg'],
-            'total_price' => $validated['weight_kg'] * $service->price,
+            'weight'   => $validated['weight'],
+            'total_price' => $validated['weight'] * $service->price,
             'pickup_date' => now()->addDays($service->duration_days),
             'status'      => $validated['status'],
             'notes'       => $validated['notes'] ?? null,
         ]);
+
+        if ($validated['status'] === 'siap_diambil' && $oldStatus !== 'siap_diambil') {
+
+            $user = $order->customer->user;
+
+            $message = "Halo {$user->name} 👋
+
+    Pesanan laundry kamu sudah *SIAP DIAMBIL* ✅
+
+    🧾 ID: {$order->id}
+    📍 Silakan datang ke outlet untuk pengambilan.
+
+    Terima kasih 🙏";
+
+            kirimWA($user->phone, $message);
+        }
 
         return redirect()->route('admin.orders.index')
             ->with('success', 'Pesanan berhasil diperbarui!');

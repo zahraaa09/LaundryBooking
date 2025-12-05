@@ -30,22 +30,41 @@ class CustomerOrderController extends Controller
     {
         $validated = $request->validate([
             'service_id' => 'required|exists:services,id',
-            'weight_kg' => 'required|numeric|min:1',
-            'notes' => 'nullable|string'
+            'weight'  => 'required|numeric|min:1',
+            'notes'      => 'nullable|string'
         ]);
 
         $service = Service::findOrFail($validated['service_id']);
 
-        Order::create([
+        // ✅ SIMPAN KE VARIABEL $order
+        $order = Order::create([
             'customer_id' => Auth::id(),
-            'service_id' => $service->id,
-            'weight_kg' => $validated['weight_kg'],
-            'total_price' => $validated['weight_kg'] * $service->price,
+            'service_id'  => $service->id,
+            'weight'   => $validated['weight'],
+            'total_price' => $validated['weight'] * $service->price,
             'pickup_date' => now()->addDays($service->duration_days),
-            'order_date' => now(),
-            'status' => 'masuk',
-            'notes' => $validated['notes']
+            'order_date'  => now(),
+            'status'      => 'masuk',
+            'notes'       => $validated['notes'] ?? null
         ]);
+
+        $user = auth()->user();
+
+        // ✅ TEMPLATE PESAN WA
+        $message = "Halo {$user->name} 👋
+
+    Pesanan laundry kamu berhasil dibuat ✅
+
+    🧾 ID: {$order->id}
+    🧺 Layanan: {$service->name}
+    ⚖️ Berat: {$order->weight} kg
+    💰 Total: Rp " . number_format($order->total_price, 0, ',', '.') . "
+    📅 Ambil: " . \Carbon\Carbon::parse($order->pickup_date)->format('d M Y') . "
+
+    Terima kasih sudah menggunakan layanan kami 🙏";
+
+        // ✅ KIRIM WA
+        kirimWA($user->phone, $message);
 
         return redirect()->route('customer.orders.index')
             ->with('success', 'Pesanan berhasil dibuat!');
@@ -66,11 +85,11 @@ class CustomerOrderController extends Controller
             ->where('customer_id', Auth::id())
             ->firstOrFail();
 
-        if ($order->status !== 'Masuk') {
+        if ($order->status !== 'masuk') {
             return back()->with('error', 'Pesanan tidak dapat dibatalkan!');
         }
 
-        $order->update(['status' => 'Dibatalkan']);
+        $order->update(['status' => 'batal']);
 
         return redirect()->route('customer.orders.index')->with('success', 'Pesanan berhasil dibatalkan.');
     }
