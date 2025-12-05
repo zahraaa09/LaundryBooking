@@ -182,12 +182,6 @@ npm install @fortawesome/fontawesome-free
 - `POST /booking` - Buat pemesanan
 - `GET /my-orders` - Riwayat pesanan
 
-## 🎨 Tema Warna
-
-Aplikasi menggunakan tema **Maroon & Cream**:
-- Primary: Maroon (#7F1D1D, #991B1B)
-- Secondary: Cream (#FEF3C7, #FEFCE8, #FFFAF0)
-
 ## 🐛 Troubleshooting
 
 ### Error: "Class not found"
